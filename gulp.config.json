@@ -1,17 +1,20 @@
 {
+  "bower": {
+    "json": "bower.json",
+    "directory": "bower_components"
+  },
+
   "paths": {
-    "sassMain": "src/sass/index.sass",
-    "sassSources": [
-      "src/sass/**/*.sass"
-    ],
-    "vendorCSS": [
-      "bower_components/**/*.css"
-    ],
+    "scripts": "./src/js/**/*.js",
+    "styles": ["./src/styles/**/*.sass", "./src/styles/**/*.css"],
+    "assets": "./src/assets/**/*",
+    "index": "./src/index.html",
     "dist": {
-      "root": "dist/",
-      "assets": "dist/assets",
-      "css": "dist/css",
-      "js": "dist/js"
+      "root": "./dist/",
+      "assets": "./dist/assets",
+      "css": "./dist/css",
+      "js": "./dist/js"
     }
+
   }
 }
