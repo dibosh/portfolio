@@ -22,8 +22,6 @@
     "gulp-uglify": "^2.0.0",
     "jshint": "^2.9.3",
     "main-bower-files": "^2.13.1",
-    "nodemon": "^1.10.2",
-    "q": "^1.4.1",
-    "wiredep": "^4.0.0"
+    "nodemon": "^1.10.2"
   }
 }
