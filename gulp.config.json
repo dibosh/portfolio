@@ -1,0 +1,17 @@
+{
+  "paths": {
+    "sassMain": "src/sass/index.sass",
+    "sassSources": [
+      "src/sass/**/*.sass"
+    ],
+    "vendorCSS": [
+      "bower_components/**/*.css"
+    ],
+    "dist": {
+      "root": "dist/",
+      "assets": "dist/assets",
+      "css": "dist/css",
+      "js": "dist/js"
+    }
+  }
+}
