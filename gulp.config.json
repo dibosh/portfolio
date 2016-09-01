@@ -8,10 +8,12 @@
     "scripts": "./src/js/**/*.js",
     "styles": ["./src/styles/**/*.sass", "./src/styles/**/*.css"],
     "assets": "./src/assets/**/*",
+    "partials": "./src/partials/*.html",
     "index": "./src/index.html",
     "dist": {
       "root": "./dist/",
       "assets": "./dist/assets",
+      "partials": "./dist/partials",
       "css": "./dist/css",
       "js": "./dist/js"
     }

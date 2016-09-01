@@ -4,7 +4,7 @@ var gulp = require('gulp');
 var plugins = require('gulp-load-plugins')();
 var del = require('del');
 var bowerFiles = require('main-bower-files');
-var Q = require('q');
+var series = require('stream-series');
 // Config file
 var config = require('./gulp.config.json');
 // All piped works
@@ -37,8 +37,27 @@ pipes.builtAppScripts = function () {
     .pipe(gulp.dest(config.paths.dist.js));
 };
 
-pipes.builtVendorScripts = function () {
+pipes.builtVendorStyles = function () {
+  var cssFilter = plugins.filter(function (file) {
+    return file.path.match(/\.css|\.sass$/i);
+  });
+
   return gulp.src(bowerFiles())
+    .pipe(cssFilter)
+    .pipe(plugins.sass())
+    .pipe(plugins.concat('vendor.styles.css'))
+    .pipe(plugins.cleanCss({compatibility: 'ie8'}))
+    .pipe(pipes.minifiedFileName())
+    .pipe(gulp.dest(config.paths.dist.css));
+};
+
+pipes.builtVendorScripts = function () {
+  var jsFilter = plugins.filter(function (file) {
+    return file.path.match(/\.(js)$/i);
+  });
+
+  return gulp.src(bowerFiles())
+    .pipe(jsFilter)
     .pipe(pipes.orderedVendorScripts())
     .pipe(plugins.concat('vendor.min.js'))
     .pipe(plugins.uglify())
@@ -53,28 +72,44 @@ pipes.builtStyles = function () {
     .pipe(gulp.dest(config.paths.dist.css));
 };
 
-pipes.copiedAssets = function () {
-  return gulp.src(config.paths.assets)
-    .pipe(gulp.dest(config.paths.dist.assets));
-};
-
-pipes.builtIndex = function () {
+function buildApp() {
   var vendorScripts = pipes.builtVendorScripts();
+  var vendorStyles = pipes.builtVendorStyles();
   var appScripts = pipes.builtAppScripts();
   var appStyles = pipes.builtStyles();
-  var copiedAssets = pipes.copiedAssets();
+  // Copy assets and partials
+  copyAssets();
+  copyPartials();
 
   return gulp.src(config.paths.index)
     .pipe(gulp.dest(config.paths.dist.root))
-    .pipe(plugins.inject(vendorScripts, {relative: true, name: 'bower'}))
-    .pipe(plugins.inject(appScripts, {relative: true}))
-    .pipe(plugins.inject(appStyles, {relative: true}))
+    .pipe(plugins.inject(series(vendorScripts, appScripts), {relative: true}))
+    .pipe(plugins.inject(series(vendorStyles, appStyles), {relative: true}))
     .pipe(gulp.dest(config.paths.dist.root));
-};
+}
+
+function copyAssets() {
+  gulp.src(config.paths.assets)
+    .pipe(gulp.dest(config.paths.dist.assets));
+}
+
+function copyPartials() {
+  gulp.src(config.paths.partials)
+    .pipe(gulp.dest(config.paths.dist.partials));
+}
+
+gulp.task('watch', ['build'], function () {
+  gulp.watch([
+    config.paths.scripts,
+    config.paths.styles,
+    config.paths.partials,
+    config.paths.index
+  ], ['build']);
+});
 
 gulp.task('build', function () {
   del(config.paths.dist.root)
     .then(function () {
-      pipes.builtIndex();
+      buildApp();
     });
 });
