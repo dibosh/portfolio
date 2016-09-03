@@ -3,13 +3,16 @@
     "json": "bower.json",
     "directory": "bower_components"
   },
-
   "paths": {
     "scripts": "./src/js/**/*.js",
-    "styles": ["./src/styles/**/*.sass", "./src/styles/**/*.css"],
+    "styles": [
+      "./src/styles/**/*.sass",
+      "./src/styles/**/*.css"
+    ],
     "assets": "./src/assets/**/*",
     "partials": "./src/partials/*.html",
     "index": "./src/index.html",
+    "favicon": "./src/favicon.ico",
     "dist": {
       "root": "./dist/",
       "assets": "./dist/assets",
@@ -17,6 +20,5 @@
       "css": "./dist/css",
       "js": "./dist/js"
     }
-
   }
 }

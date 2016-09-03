@@ -77,9 +77,10 @@ function buildApp() {
   var vendorStyles = pipes.builtVendorStyles();
   var appScripts = pipes.builtAppScripts();
   var appStyles = pipes.builtStyles();
-  // Copy assets and partials
+  // Copy others
   copyAssets();
   copyPartials();
+  copyFavIcon();
 
   return gulp.src(config.paths.index)
     .pipe(gulp.dest(config.paths.dist.root))
@@ -91,6 +92,11 @@ function buildApp() {
 function copyAssets() {
   gulp.src(config.paths.assets)
     .pipe(gulp.dest(config.paths.dist.assets));
+}
+
+function copyFavIcon() {
+  gulp.src(config.paths.favicon)
+    .pipe(gulp.dest(config.paths.dist.root));
 }
 
 function copyPartials() {
