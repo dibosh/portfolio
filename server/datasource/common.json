@@ -1,0 +1,18 @@
+{
+  "portfolios": {
+    "github": {
+      "url": "https://api.github.com/users/dibosh/repos",
+      "publicProfile": "https://github.com/dibosh"
+    },
+    "bitbucket": {
+      "url": "https://api.bitbucket.org/2.0/repositories/coderguy194",
+      "publicProfile": "https://bitbucket.com/coderguy194"
+    },
+    "behance": {
+      "url": "https://api.behance.net/v2/users/munimdibosh/projects?client_id=huE0X5JNfFVJzHCwWNwJMHbT4T6RhB2F"
+    },
+    "dribbble": {
+      "url": "https://api.dribbble.com/v1/users/idibosh/shots?access_token=eca489380efaa385dbeae2e5c04da5e6ac2284d9f50d8c6433fab7a774a40781"
+    }
+  }
+}
