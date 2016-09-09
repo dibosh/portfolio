@@ -69,8 +69,8 @@ router.get('/all', function (req, res) {
   var sites = ['behance', 'dribbble', 'github', 'bitbucket'];
   var promises = [];
 
-  for (var i = 0; i < sites.length; i++) {
-    var requestConfig = prepareRequestConfig(null, commonData.portfolios[sites[i]].url, null);
+  for (var index in sites) {
+    var requestConfig = prepareRequestConfig(null, commonData.portfolios[sites[index]].url, null);
     var promise = request(requestConfig)
       .then(function (response) {
         return response;
@@ -86,7 +86,10 @@ router.get('/all', function (req, res) {
         var response = aggregatedResponse[index];
         var hostNameRegex = /\.([^\.]+)\./g;
         var hostName = hostNameRegex.exec(response.request.uri.hostname)[1];
-        actualResponse[hostName] = dataRetrievalFunctions[hostName](response.body);
+        actualResponse[hostName] = {
+          count: dataRetrievalFunctions[hostName](response.body),
+          url: commonData.portfolios[hostName].publicProfile
+        };
       }
 
       res.status(200).send(actualResponse);
