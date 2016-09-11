@@ -6,7 +6,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 var port = process.env.PORT || 8080;
-var projectCounts = require('./controllers/project.count');
+var router = require('./controllers/index');
 
 // The client app
 app.use(express.static('./dist'));
@@ -18,7 +18,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use('/api/count', projectCounts);
+app.use('/api', router);
 
 // Error handling
 app.use(function (err, req, res, next) {
