@@ -2,12 +2,30 @@ var express = require('express');
 var router = express.Router();
 var request = require('request-promise');
 var q = require('q');
+var xmlToJSONParser = require('xml2js');
 var commonData = require('../datasource/common.json');
 
 router.use(function timeLog(req, res, next) {
   console.log('%s %s %s', req.method, req.url, req.path);
   next();
 });
+
+function getErrorInterpretation(errorObject) {
+  if (errorObject.hasOwnProperty('statusCode') && errorObject.hasOwnProperty('error')) {
+    // custom error object from request lib
+    return {
+      statusCode: errorObject.statusCode,
+      resolvedResponse: errorObject.error.error
+    };
+  } else {
+    return {
+      statusCode: 500,
+      resolvedResponse: {
+        message: errorObject.message
+      }
+    }
+  }
+}
 
 router.get('/github', function (req, res) {
   var requestConfig = prepareRequestConfig(null, commonData.portfolios.github.url, null);
@@ -19,7 +37,8 @@ router.get('/github', function (req, res) {
       });
     })
     .catch(function (errorResponse) {
-      res.status(errorResponse.statusCode).send(errorResponse.error.error);
+      var error = getErrorInterpretation(errorResponse);
+      res.status(error.statusCode).send(error.resolvedResponse);
     });
 });
 
@@ -33,7 +52,8 @@ router.get('/bitbucket', function (req, res) {
       });
     })
     .catch(function (errorResponse) {
-      res.status(errorResponse.statusCode).send(errorResponse.error.error);
+      var error = getErrorInterpretation(errorResponse);
+      res.status(error.statusCode).send(error.resolvedResponse);
     });
 });
 
@@ -47,7 +67,8 @@ router.get('/behance', function (req, res) {
       });
     })
     .catch(function (errorResponse) {
-      res.status(errorResponse.statusCode).send(errorResponse.error.error);
+      var error = getErrorInterpretation(errorResponse);
+      res.status(error.statusCode).send(error.resolvedResponse);
     });
 });
 
@@ -61,7 +82,8 @@ router.get('/dribbble', function (req, res) {
       });
     })
     .catch(function (errorResponse) {
-      res.status(errorResponse.statusCode).send(errorResponse.error.error);
+      var error = getErrorInterpretation(errorResponse);
+      res.status(error.statusCode).send(error.resolvedResponse);
     });
 });
 
@@ -69,29 +91,36 @@ router.get('/codepen', function (req, res) {
   var requestConfig = prepareRequestConfig(null, commonData.portfolios.codepen.url, null);
   request(requestConfig)
     .then(function (response) {
-      res.status(response.statusCode).send({
-        'count': response.body.data.length,
-        'url': commonData.portfolios.codepen.publicProfile
+      var statusCode = response.statusCode;
+      var xml = response.body;
+      xmlToJSONParser.parseString(xml, function (parseError, parsedJSON) {
+        if (parseError) {
+          var error = getErrorInterpretation(parseError);
+          res.status(error.statusCode).send(error.resolvedResponse);
+        }
+        res.status(statusCode).send({
+          'count': parsedJSON.rss.channel[0].item.length,
+          'url': commonData.portfolios.codepen.publicProfile
+        });
       });
     })
     .catch(function (errorResponse) {
-      res.status(errorResponse.statusCode).send(errorResponse.error.error);
+      var error = getErrorInterpretation(errorResponse);
+      res.status(error.statusCode).send(error.resolvedResponse);
     });
 });
 
-router.get('/all', function (req, res) {
+router.get('/', function (req, res) {
   var sites = ['behance', 'dribbble', 'github', 'bitbucket', 'codepen'];
-  var hostnameSiteMapping = {
-    cpv2api: 'codepen'
-  };
 
   var promises = [];
 
+  var baseAbsoluteUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
   for (var index in sites) {
-    var requestConfig = prepareRequestConfig(null, commonData.portfolios[sites[index]].url, null);
+    var requestConfig = prepareRequestConfig(null, baseAbsoluteUrl + '/' + sites[index], null);
     var promise = request(requestConfig)
       .then(function (response) {
-        return response;
+        return response.body;
       });
 
     promises.push(promise);
@@ -102,15 +131,9 @@ router.get('/all', function (req, res) {
       var actualResponse = {};
       for (var index in aggregatedResponse) {
         var response = aggregatedResponse[index];
-        var hostNameRegex = /(?=[^\.]*\.)([^\.]+)(?=\.[^\.]*$)/g;
-        var hostName = hostNameRegex.exec(response.request.uri.hostname)[1];
-        if (hostnameSiteMapping.hasOwnProperty(hostName)) {
-          hostName = hostnameSiteMapping[hostName];
-        }
-        actualResponse[hostName] = {
-          count: dataRetrievalFunctions[hostName](response.body),
-          url: commonData.portfolios[hostName].publicProfile
-        };
+        var hostNameRegex = /(?=[^\/\/\.]*\.)([^\.]+)(?=\.[^\.]*$)/g;
+        var hostName = hostNameRegex.exec(response.url)[1];
+        actualResponse[hostName] = response;
       }
       res.status(200).send(actualResponse);
     })
