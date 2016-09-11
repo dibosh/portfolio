@@ -15,6 +15,10 @@
     "dribbble": {
       "url": "https://api.dribbble.com/v1/users/idibosh/shots?access_token=eca489380efaa385dbeae2e5c04da5e6ac2284d9f50d8c6433fab7a774a40781",
       "publicProfile": "https://dribbble.com/idibosh"
+    },
+    "codepen": {
+      "url": "http://cpv2api.com/pens/public/idibosh",
+      "publicProfile": "http://codepen.io/idibosh/pens/public/"
     }
   }
 }

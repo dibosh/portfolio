@@ -65,8 +65,26 @@ router.get('/dribbble', function (req, res) {
     });
 });
 
+router.get('/codepen', function (req, res) {
+  var requestConfig = prepareRequestConfig(null, commonData.portfolios.codepen.url, null);
+  request(requestConfig)
+    .then(function (response) {
+      res.status(response.statusCode).send({
+        'count': response.body.data.length,
+        'url': commonData.portfolios.codepen.publicProfile
+      });
+    })
+    .catch(function (errorResponse) {
+      res.status(errorResponse.statusCode).send(errorResponse.error.error);
+    });
+});
+
 router.get('/all', function (req, res) {
-  var sites = ['behance', 'dribbble', 'github', 'bitbucket'];
+  var sites = ['behance', 'dribbble', 'github', 'bitbucket', 'codepen'];
+  var hostnameSiteMapping = {
+    cpv2api: 'codepen'
+  };
+
   var promises = [];
 
   for (var index in sites) {
@@ -84,14 +102,16 @@ router.get('/all', function (req, res) {
       var actualResponse = {};
       for (var index in aggregatedResponse) {
         var response = aggregatedResponse[index];
-        var hostNameRegex = /\.([^\.]+)\./g;
+        var hostNameRegex = /(?=[^\.]*\.)([^\.]+)(?=\.[^\.]*$)/g;
         var hostName = hostNameRegex.exec(response.request.uri.hostname)[1];
+        if (hostnameSiteMapping.hasOwnProperty(hostName)) {
+          hostName = hostnameSiteMapping[hostName];
+        }
         actualResponse[hostName] = {
           count: dataRetrievalFunctions[hostName](response.body),
           url: commonData.portfolios[hostName].publicProfile
         };
       }
-
       res.status(200).send(actualResponse);
     })
     .catch(function (error) {
@@ -111,6 +131,9 @@ var dataRetrievalFunctions = {
   },
   bitbucket: function (data) {
     return data.size;
+  },
+  codepen: function (data) {
+    return data.data.length;
   }
 };
 
