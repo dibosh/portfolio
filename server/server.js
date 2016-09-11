@@ -8,6 +8,9 @@ app.use(bodyParser.json());
 var port = process.env.PORT || 8080;
 var projectCounts = require('./controllers/project.count');
 
+// The client app
+app.use(express.static('./dist'));
+
 // CORS Support
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
