@@ -1,8 +1,9 @@
 <div class="middle-wrapper">
   <!--project blocks-->
-  <div class="row content-center url-boxes">
-    <div class="url-box col-md-3" ng-repeat="urlBox in vm.urlBoxes">
-      <i ng-class="urlBox.icon"></i>
+  <div class="row content-center project-sites">
+    <div class="project-site" ng-repeat="(k, v) in vm.projectSites">
+      <i class="site-icon" ng-class="v.icon"></i>
+      <a class="site-url" ng-href="{{v.url}}">{{v.count}} projects</a>
     </div>
   </div>
 </div>

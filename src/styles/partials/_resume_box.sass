@@ -1,9 +1,11 @@
 .resume-box
   padding: 1.25em
   border: 1px solid $color-light-gray
-  margin: 1.6em 0
+  margin: 1.6em auto
+  max-width: 62%
   font-size: .875em
   background: $color-off-white
+  border-radius: 3px
 
 .content-center
   text-align: center
@@ -48,16 +50,26 @@
 
 // The middle portion
 .middle-wrapper
-  .url-boxes
+  .project-sites
+    background: $color-primary
+    display: flex
     height: 100px
     border-top: 1px solid rgba($color-gray, 0.1)
     border-bottom: 1px solid rgba($color-gray, 0.1)
 
-    .url-box
-      padding: 20px 50px
+    .project-site
+      flex-grow: 1
+      padding: 20px
       height: 100%
       &:not(:last-child)
-        border-right: 1px solid rgba($color-gray, 0.1)
+        border-right: 1px solid $color-white
+
+      .site-icon, .site-url
+        color: $color-white
+
+      .site-icon
+        margin-bottom: 10px
+        font-size: 2.4rem
 
 .box
   background: $color-primary
