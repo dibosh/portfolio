@@ -8,7 +8,7 @@
 
   function projectCountService($http, config) {
     function getProjectCounts() {
-      var url = config.BASE_URL + '/count/all'
+      var url = config.BASE_URL + '/projects/count';
       return $http.get(url)
         .then(function (response) {
           return response.data;
