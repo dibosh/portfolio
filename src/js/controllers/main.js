@@ -10,8 +10,7 @@
     var vm = this;
     vm.templates = {
       top: 'partials/top.html',
-      middle: 'partials/middle.html',
-      loader: 'partials/loader.html'
+      middle: 'partials/middle.html'
     };
 
     function activate() {
