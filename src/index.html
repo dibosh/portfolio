@@ -9,7 +9,14 @@
   <!-- endinject -->
 </head>
 <body>
-<div class="wrap container-fluid" ng-controller="MainController as vm">
+<div class="wrap container-fluid" ng-controller="MainCtrl as vm">
+  <div class="loading-container" ng-if="vm.isLoading">
+    <div class="signal"></div>
+    <div class="loading-text">
+      <h4>Hello, there! Thanks for coming!</h4>
+      <p>I am pulling in data from few sources to give you my latest updates, hang tight...</p>
+    </div>
+  </div>
   <div class="resume-box">
     <div ng-include="vm.templates.top"></div>
     <div ng-include="vm.templates.middle"></div>
