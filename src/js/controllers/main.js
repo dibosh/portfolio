@@ -12,6 +12,7 @@
       top: 'partials/top.html',
       middle: 'partials/middle.html'
     };
+    vm.resumeLink = 'https://docs.google.com/document/u/1/d/1596g6Zf_PiidhvZ-f7WCHKj708XptnB5y14fgVXjvp8/export?format=pdf';
 
     function activate() {
       vm.isLoading = true;
