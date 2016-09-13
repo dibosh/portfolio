@@ -1,5 +1,5 @@
 .resume-box
-  padding: 1.25em
+  padding: 1.25em 1.25em 0
   border: 1px solid $color-light-gray
   margin: 1.6em auto
   max-width: 62%
@@ -80,4 +80,25 @@
 .box-holder:not(:last-child)
   border-right: 1px solid rgba(255, 255, 255, 0.4)
   border-bottom: 1px solid rgba(255, 255, 255, 0.4)
+
+@media (max-width: 720px)
+  .container-fluid
+    padding-right: 0 !important
+    padding-left: 0 !important
+
+  .resume-box
+    max-width: 90%
+
+  .short-bio
+    padding: 0 20px
+
+  .middle-wrapper
+    .project-sites
+      flex-direction: column
+      height: auto
+
+      .project-site
+        &:not(:last-child)
+          border-right: 0
+          border-bottom: 1px solid $color-white
 
