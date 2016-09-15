@@ -1,7 +1,15 @@
 <div class="middle-wrapper">
   <!--project blocks-->
-  <div class="row content-center project-sites">
-    <div class="project-site" ng-repeat="(k, v) in vm.projectSites">
+  <div class="row content-center flex-block-container">
+    <div class="flex-block" ng-repeat="(k, v) in vm.projectSites">
+      <i class="site-icon" ng-class="v.icon"></i>
+      <a class="site-url" ng-href="{{v.url}}">{{v.count}} projects</a>
+    </div>
+  </div>
+
+  <!--skill blocks-->
+  <div class="row content-center flex-block-container">
+    <div class="flex-block" ng-repeat="(k, v) in vm.projectSites">
       <i class="site-icon" ng-class="v.icon"></i>
       <a class="site-url" ng-href="{{v.url}}">{{v.count}} projects</a>
     </div>
