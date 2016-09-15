@@ -1,13 +1,13 @@
 .top-wrapper
   .title
     font-size: 2.4rem
-    color: $color-dark-blue-gray
     margin: 20px 0 0 0
+    @extend .fg-color-dark-blue-gray
 
   .subtitle
     font-size: 1.4rem
-    color: $color-light-blue-gray
     margin: 5px 0 30px 0
+    @extend .fg-color-light-blue-gray
 
   .avatar
     width: 60px
@@ -16,24 +16,23 @@
     border: 4px solid $color-primary
 
   .download-resume-button
-    background: $color-primary-action
     border-radius: 25px
     font-size: 1.2rem
-    color: $color-white
     border: 1px solid $color-white
     padding: 5px 10px
+    @extend .bg-color-primary-action
+    @extend .fg-white
 
     &:hover
-      color: $color-white
       text-decoration: none
       box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.1)
+      @extend .fg-white
 
   .short-bio
-    font-size: 1.3rem
-    line-height: 2rem
-    color: $color-light-blue-gray
-    max-width: 468px
+    max-width: 476px
     margin: 20px auto
+    @extend .small-font
+    @extend .fg-color-light-blue-gray
 
 @media (max-width: 720px)
   .short-bio

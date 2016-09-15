@@ -1,34 +1,8 @@
 .middle-wrapper
-  .flex-block-container
-    background: $color-primary
-    display: flex
-    height: 100px
-    border-top: 1px solid rgba($color-gray, 0.1)
-    border-bottom: 1px solid rgba($color-gray, 0.1)
-    +bottom-margin(20px)
-
-    .flex-block
-      flex-grow: 1
-      padding: 20px
-      height: 100%
-      &:not(:last-child)
-        border-right: 1px solid $color-white
-
   .site-icon, .site-url
     display: block
-    color: $color-white
+    @extend .fg-white
 
   .site-icon
     margin-bottom: 10px
     font-size: 2.4rem
-
-@media (max-width: 720px)
-  .middle-wrapper
-    .flex-block-container
-      flex-direction: column
-      height: auto
-
-      .flex-block
-        &:not(:last-child)
-          border-right: 0
-          border-bottom: 1px solid $color-white
