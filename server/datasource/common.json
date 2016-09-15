@@ -25,5 +25,11 @@
       "url": "http://codepen.io/idibosh/public/feed",
       "publicProfile": "http://codepen.io/idibosh/pens/public/"
     }
+  },
+  "expertise": {
+    "languages": ["Java", "ObjectiveC", "Python", "Javascript"],
+    "frameworks": ["Flask", "NodeJS", "AngularJS", "RequireJS"],
+    "patterns": ["MVC", "DDD", "TDD", "SOA"],
+    "design": ["SASS", "UX", "Sketch", "Illustrator"]
   }
 }
