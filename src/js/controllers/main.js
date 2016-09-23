@@ -16,15 +16,17 @@
 
     function activate() {
       vm.isLoading = true;
-      commonSvc.getAboutMe()
-        .then(function (response) {
-          vm.name = response.fullName;
-          vm.professionalTitle = response.designation;
-          vm.shortBio = response.shortBio;
+      commonSvc.getAll()
+        .then(function (infoResp) {
+          var aboutMe = infoResp.aboutMe;
+          vm.name = aboutMe.fullName;
+          vm.professionalTitle = aboutMe.designation;
+          vm.shortBio = aboutMe.shortBio;
+          vm.expertise = infoResp.expertise;
 
           projectCountSvc.getProjectCounts()
-            .then(function (response) {
-              vm.projectSites = response;
+            .then(function (projectCountResp) {
+              vm.projectSites = projectCountResp;
               for (var key in vm.projectSites) {
                 var projectSite = vm.projectSites[key];
                 projectSite.icon = 'fa fa-' + key;
