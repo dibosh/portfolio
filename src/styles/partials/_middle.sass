@@ -1,4 +1,18 @@
 .middle-wrapper
+  .skills
+    .flex-block-container
+      @extend .bg-white
+
+    .flex-block
+      width: 25%
+      &:not(:last-child)
+        border-right: 1px solid $color-lightest-grey
+
+      .item-title
+        @extend .regular-font
+        @extend .fg-color-light-blue-gray
+        padding: 2rem
+
   .site-icon, .site-url
     display: block
     @extend .fg-white
