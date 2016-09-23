@@ -13,6 +13,7 @@
       middle: 'partials/middle.html'
     };
     vm.resumeLink = 'https://docs.google.com/document/u/1/d/1596g6Zf_PiidhvZ-f7WCHKj708XptnB5y14fgVXjvp8/export?format=pdf';
+    vm.portFolioLink = 'https://drive.google.com/file/d/0BwF65AZWzKH-VllMTkhrUzZQOE0/view?usp=sharing';
 
     function activate() {
       vm.isLoading = true;
