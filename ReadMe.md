@@ -1,5 +1,5 @@
 ## My Personal Portfolio (WIP)
-Available at- https://dibosh.me
+Available at- https://munimdibosh.me
 
 ### Running the project
 - `npm install -g bower gulp`
