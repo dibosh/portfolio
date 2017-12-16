@@ -2,8 +2,9 @@
 Available at- https://munimdibosh.me
 
 ### Running the project
-- `npm install -g bower gulp`
+- `npm install -g bower gulp concurrently nodemon`
 - `npm install`
 - `bower install`
-- `gulp watch`
-- `PORT=<port> npm start // Will run the server on localhost:<port>`
+- `npm run dev` (_A locally built version of the app will be available
+ at http://localhost:8080._)
+- `npm run prod` (_A production friendly build._)
