@@ -7,6 +7,26 @@ var bowerFiles = require('main-bower-files');
 var series = require('stream-series');
 // Config file
 var config = require('./gulp.config.json');
+
+// command line arguments
+var commandLineArgs = (function (argList) {
+  var args = {};
+  for (var parseIndex = 0; parseIndex < argList.length; parseIndex++) {
+    var currentArg = argList[parseIndex];
+    if (String(currentArg).startsWith('--')) {
+      var key = String(currentArg).replace('--', '');
+      if (parseIndex + 1 < argList.length) {
+        args[key] = argList[parseIndex + 1];
+      } else {
+        args[key] = true;
+      }
+
+      parseIndex = parseIndex + 1;
+    }
+  }
+  return args;
+})(process.argv);
+
 // All piped works
 var pipes = {};
 
@@ -118,4 +138,14 @@ gulp.task('build', function () {
     .then(function () {
       buildApp();
     });
+});
+
+gulp.task('default', function () {
+  if (commandLineArgs.dev) {
+    console.log('Starting for dev environment::watch');
+    gulp.start('watch');
+  } else {
+    console.log('Starting for prod environment::build');
+    gulp.start('build');
+  }
 });
