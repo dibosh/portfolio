@@ -5,7 +5,13 @@ var app = express();
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-var port = process.env.PORT || 8080;
+var port = 8080;
+process.argv.forEach(function (arg, index) {
+  if (arg === '--port') {
+    port = parseInt(process.argv[index + 1]);
+  }
+});
+
 var router = require('./controllers/index');
 
 // The client app
@@ -21,12 +27,13 @@ app.use(function (req, res, next) {
 app.use('/api', router);
 
 // Error handling
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res) {
   console.error(err.stack);
   res.status(500).send({
-    'message': 'Internal Server Error'
+    'message': err.message
   });
 });
 
-app.listen(port);
-console.log('Server started on port ' + port);
+app.listen(port, function () {
+  console.log('Server started on port ' + port);
+});
